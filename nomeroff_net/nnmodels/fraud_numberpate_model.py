@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from torch.nn import functional
 from .numberplate_classification_model import ClassificationNet
-from torchvision.models import resnet18
+from torchvision.models import resnet18, ResNet18_Weights
 from nomeroff_net.tools.mcm import get_device_torch
 
 
@@ -22,7 +22,7 @@ class FraudNPNet(ClassificationNet):
         self.learning_rate = learning_rate
         self.criterion = nn.BCEWithLogitsLoss()
 
-        resnet = resnet18(pretrained=True)
+        resnet = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
         modules = list(resnet.children())[:-3]
         self.resnet = nn.Sequential(*modules)
 

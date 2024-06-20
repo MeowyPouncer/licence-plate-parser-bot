@@ -1,0 +1,9 @@
+services:
+  nomnet_bot:
+    container_name: nomnet-bot_container
+    image: nomnet-bot_image  
+    volumes:
+      - ./volume:/app/volume  
+    env_file:
+      - ./volume/.env
+    restart: unless-stopped

@@ -6,8 +6,7 @@ import torch
 import torch.nn as nn
 from typing import List, Any
 import pytorch_lightning as pl
-from torchvision.models import resnet18
-
+from torchvision.models import resnet18, ResNet18_Weights, efficientnet_b2, EfficientNet_B2_Weights, shufflenet_v2_x1_0, ShuffleNet_V2_X1_0_Weights
 from nomeroff_net.tools.ocr_tools import plot_loss, print_prediction
 from nomeroff_net.tools.mcm import get_device_torch
 
@@ -85,21 +84,26 @@ class NPOcrNet(pl.LightningModule):
         self.label_converter = label_converter
 
         # convolutions
-        if backbone is None:
-            backbone = resnet18
-        conv_nn = backbone(pretrained=True)
-        if 'resnet' in str(backbone):
+        if backbone is None or backbone is resnet18:
+            weights = ResNet18_Weights.DEFAULT
+            conv_nn = resnet18(weights=weights)
             conv_modules = list(conv_nn.children())[:-3]
-        elif 'efficientnet' in str(backbone):
+        elif backbone is efficientnet_b2:
+            weights = EfficientNet_B2_Weights.DEFAULT
+            conv_nn = efficientnet_b2(weights=weights)
             conv_modules = list(conv_nn.children())[:-2]
-        elif 'shufflenet' in str(backbone):
+        elif backbone is shufflenet_v2_x1_0:
+            weights = ShuffleNet_V2_X1_0_Weights.DEFAULT
+            conv_nn = shufflenet_v2_x1_0(weights=weights)
             conv_modules = list(conv_nn.children())[:-3]
         else:
-            raise NotImplementedError(backbone)
-        self.conv_nn = nn.Sequential(*conv_modules)
-        _, backbone_c, backbone_h, backbone_w = self.conv_nn(torch.rand((1, color_channels, height, width))).shape
+            raise NotImplementedError(f"Backbone {backbone} not supported.")
 
-        assert backbone_w > max_text_len
+        self.conv_nn = nn.Sequential(*conv_modules)
+        _, backbone_c, backbone_h, backbone_w = self.conv_nn(
+            torch.rand((1, self.color_channels, self.height, self.width))).shape
+
+        assert backbone_w > self.max_text_len
 
         # RNN + Linear
         self.linear1 = nn.Linear(backbone_c*backbone_h, self.linear_size)

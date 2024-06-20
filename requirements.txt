@@ -1,29 +1,40 @@
 cython
-setuptools
+setuptools~=68.2.0
 numpy==1.23.5
-imgaug>=0.4.*
+imgaug>=0.4.0
 opencv_python
 scikit_image
-asyncio
+asyncio~=3.4.3
 gitpython
 pycocotools
-ujson
-pillow
-tqdm
-matplotlib
-scipy
+ujson~=5.9.0
+pillow~=10.2.0
+tqdm~=4.66.2
+matplotlib~=3.7.5
+scipy~=1.10.1
 torch>=1.12
 torchvision>=0.13
 PyYAML>=5.4
-seaborn
+seaborn~=0.13.2
 pytorch_lightning==1.8.6
 ipywidgets
-gevent
-termcolor
+gevent~=24.2.1
+termcolor~=2.4.0
 scikit-learn
 ultralytics==8.0.45
-
+pyTelegramBotAPI==4.16.1
 # git repos
-craft_text_detector @ https://github.com/ria-com/craft-text-detector.git
+craft_text_detector @ git+https://github.com/ria-com/craft-text-detector.git
 PyTurboJPEG @ git+https://github.com/lilohuang/PyTurboJPEG.git
 modelhub_client @ git+https://github.com/ria-com/modelhub-client.git
+aiohttp
+requests~=2.31.0
+beautifulsoup4~=4.12.3
+scikit-image~=0.21.0
+pandas~=2.0.3
+selenium~=4.18.1
+psutil~=5.9.8
+thop~=0.1.1.post2209072238
+SQLAlchemy~=2.0.28
+uvicorn~=0.29.0
+fastapi~=0.110.0

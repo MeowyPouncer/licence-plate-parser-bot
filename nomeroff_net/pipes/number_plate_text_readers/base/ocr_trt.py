@@ -136,7 +136,8 @@ class OcrTrt(OCR):
         if not len(xs):
             return ([], []) if return_acc else []
         net_out_value = self.run_engine(xs)
-        pred_texts = decode_batch(torch.Tensor(net_out_value), self.label_converter)
+        net_out_value_array = np.array(net_out_value)
+        pred_texts = decode_batch(torch.tensor(net_out_value_array), self.label_converter)
         pred_texts = [pred_text.upper() for pred_text in pred_texts]
         if return_acc:
             if len(net_out_value):

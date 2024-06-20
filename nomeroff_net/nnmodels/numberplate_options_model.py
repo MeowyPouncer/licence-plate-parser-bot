@@ -133,8 +133,8 @@ class NPOptionsNet(ClassificationNet):
     def forward(self, x):
 
         x1, x2 = self.model(x)
-        x1 = functional.softmax(x1)
-        x2 = functional.softmax(x2)
+        x1 = functional.softmax(x1, dim=-1)
+        x2 = functional.softmax(x2, dim=-1)
 
         return x1, x2
 
